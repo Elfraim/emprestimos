@@ -1,10 +1,40 @@
 <?php
+session_start();
+
 include_once('conexao.php');
 
+if(!isset($_SESSION['ra']) == true ) 
+{
+  unset($_SESSION['ra']);
+;
+header('Location: login.php');
+}
+$ra = $_SESSION['ra'];
+$funcao = $_SESSION['funcao'];
+$nome = $_SESSION['nome'];
 
+if(isset($_POST['submit'])){
+
+
+
+$equip = $_POST['equipamento'];
+$quant = $_POST['quant'];
+
+
+
+$data = $_POST['DataEmp'];
+
+$desc = $_POST['descricao'];
+
+
+$query = "INSERT INTO emprestimo (nome_completo, ra, funcao,equipamento,quantidade,data_emprestimo,descricao) VALUES('$nome','$ra', '$funcao','$equip','$quant','$data','$desc.');";
+
+mysqli_query($con,$query) or die(mysqli_error($con));
+   
+}
 
 ?>
-<!   ALTERAR O CAMPO (((((DESCRICAO E FUNCAO)))) NO BANCO DE DADOS ESTAO COM FORMATO INT     -->
+
 <html><head>
 <title>
 Página Inicial - plataforma de empréstimos de equipamentos
@@ -20,7 +50,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
 <body style="background: linear-gradient(#3DA9CC,#3DA9CC,#E3FFD9);"><h1 class="Tsistema">Sistema de Emprestimos</h1>
 
 
-    <a style="margin:10%;color:white" href="login.php">
+    <a style="margin:10%;color:white" href="login.html">
        
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
@@ -86,34 +116,11 @@ Página Inicial - plataforma de empréstimos de equipamentos
   <div class="card" style="width: 25rem; height:100% ;padding: 1rem;">
   <div class="row">
   
-  <?php
-  if(!empty($_GET['search']))
-{
-  $data =$_GET['search'];
-  
-  $sql="SELECT * FROM cronograma  WHERE materia LIKE '%$data%' or nomeconcurso LIKE '%$data%' or usuario LIKE '%$data%' or  areaconhecimento Like'%$data%' and publicacao = 'publico' ORDER BY   hoje ASC";
-  $result = $conexao->query($sql);
 
-}
-  ?>
   
   <div class="form-group">
 
 
-
-    <label for="exampleFormControlInput1">Nome:</label>
-    <input type="text" name="nome" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Fulano da Silva">
-  
-    </div>
-
-
-  <div class="form-group">
-
-
-
-<label for="exampleFormControlInput1">RA:</label>
-<input type="text" name="ra" class="form-control" id="exampleFormControlInput1" placeholder="Ex: 0000">
-</div>
  
 <div class="form-group">
 
@@ -130,26 +137,15 @@ Página Inicial - plataforma de empréstimos de equipamentos
 
 </div>
 
-<div class="form-group">
-
-<label for="exampleFormControlInput1">Função:</label>
-<input type="text" name="funcao" required="" class="form-control" id="exampleFormControlInput1" placeholder=" Ex: Professor">
-
-</div>
  
 <div class="form-group">
 
 <label for="exampleFormControlInput1">Data Emprestimo:</label>
-<input type="date" name="DataEmp" required="" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+<input type="datetime-local" name="DataEmp" required="" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
 
 </div>
  
-<div class="form-group">
 
-<label for="exampleFormControlInput1">Horario:</label>
-<input type="time" name="hora" required="" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-
-</div>
 </div>
  
 
@@ -159,7 +155,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
     <textarea name="descricao" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
   </div>
  
-  <button type="submit" name="submit" id="submit" class=" col-2 bot btn btn-primary" "="" style="margin: auto">Criar</button>
+  <button type="submit" name="submit" id="submit" class=" col-2 bot btn btn-primary" "=" style="margin: auto">Criar</button>
     
 
 
@@ -174,17 +170,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
 
 
 <br>
-<div class="col-9">
-    <label style="color:white" for="funcao" class="col-form-label">Pendências:</label> 
-</div>
 
-<div class="col-9">
-    <div class="col-12"><h3 style="
-    color: #707173;
-    text-align: center;
-"> Nenhuma Pêndencia Encontrada</h3></div>
-  </div>
- 
 
   
 
