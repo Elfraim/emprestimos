@@ -4,7 +4,7 @@ include_once('conexao.php');
 
 
 ?>
-
+<!   ALTERAR O CAMPO (((((DESCRICAO E FUNCAO)))) NO BANCO DE DADOS ESTAO COM FORMATO INT     -->
 <html><head>
 <title>
 Página Inicial - plataforma de empréstimos de equipamentos
