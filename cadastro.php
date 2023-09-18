@@ -15,7 +15,7 @@ $RA = $_POST['ra'];
 $funcao = $_POST['funcao'];
 
 
-$resultado= mysqli_query($con,"INSERT INTO usuario  VALUES ('$RA','$nome', '$funcao');");
+$resultado= mysqli_query($con,"INSERT INTO usuario  VALUES ('$nome','$RA' ,'$funcao');");
 
 }
 
