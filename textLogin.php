@@ -20,10 +20,23 @@ if(mysqli_num_rows($result) < 1){
 header('Location: login.php');
 
 } else {
-   header('Location: home_user.php'); 
+ while($user_data = mysqli_fetch_assoc($result))
+{
 
+ 
    $_SESSION['ra']= $ra;
+    $nome =$user_data['nome'];
+    
+	$funcao= $user_data['funcao'];
+
+   $_SESSION['nome']= $nome;
+   
+  $_SESSION['funcao'] = $funcao; 
   
+  header('Location: home_user.php'); 
+} 
+
+ 
 }
 
 
