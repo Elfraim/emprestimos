@@ -7,10 +7,10 @@ if(!empty($_POST['ra']))
 
 $ra= $_POST['ra'];
 
-
+print_r($ra);
 $sql =" SELECT * FROM usuario WHERE ra = '$ra' ";
  
-$result = $conexao->query($sql);
+$result = mysqli_query($con, $sql);
 
 print_r($result);
 
@@ -20,11 +20,12 @@ if(mysqli_num_rows($result) < 1){
 header('Location: login.php');
 
 } else {
-   header('Location: home.php'); 
+   header('Location: home_user.php'); 
 
    $_SESSION['ra']= $ra;
   
 }
+
 
 
 }else{
