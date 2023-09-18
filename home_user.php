@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include_once('config.php');
+include_once('conexao.php');
 
 if(!isset($_SESSION['ra']) == true ) 
 {
@@ -9,12 +9,13 @@ if(!isset($_SESSION['ra']) == true )
 ;
 header('Location: login.php');
 }
-$logado = $_SESSION['ra'];
+	  $ra = $_SESSION['ra'];
+      print_r($_SESSION['funcao']);
+	  print_r($_SESSION['nome']);
 
+$sql = "SELECT * FROM emprestimo   ORDER BY data_emprestimo ASC ";
 
-$sql = "SELECT * FROM cronograma where ra='$logado'  ORDER BY hoje ASC ";
-
-$result = $conecta->query($sql);?>
+$result = mysqli_query($con, $sql);?>
 
 <html><head>
 <title>
@@ -31,7 +32,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
 <body style="background: linear-gradient(#3DA9CC,#3DA9CC,#E3FFD9);"><h1 class="Tsistema">Sistema de Emprestimos</h1>
 
 
-    <a style="margin:10%;color:white" href="login.php">
+    <a style="margin:10%;color:white" href="login.html">
        
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
@@ -99,19 +100,30 @@ Página Inicial - plataforma de empréstimos de equipamentos
 </div>
 
   <div class="col-12">
+  
+  <?php
+  
+  
+  while($user_data = mysqli_fetch_assoc($result))
+{
+  echo "Nome:     ";
+  
+  echo $user_data['nome_completo']."           - Função: ". $user_data['funcao'].'
+  
   <div class="card" style="width: 25rem;max-height: 10rem;">
   <div class="row">
    
     <div class="col-6" style="
     margin: auto;
 ">
+
 Equipamento:
     
-    <br><b>  Notebook</b>
+    <br><b>'; echo $user_data['equipamento'].' </b>
     <br>
     <br>
-    Data de emprestimo:<br>
-    28/08/2023
+    Data de emprestimo:<br>'; echo $user_data['data_emprestimo'].'
+    
     
 </div>
     <div class="col-4">
@@ -121,12 +133,16 @@ Status:
     <br>
     <br>
     Quantidade:<br>
-    28
+    '; echo $user_data['quantidade'].'
     
     
 </div>
 
   </div>
+  ';
+}  ?>
+
+
 </div>
 </div>
 
