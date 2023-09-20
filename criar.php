@@ -9,14 +9,18 @@ if(!isset($_SESSION['ra']) == true )
 ;
 header('Location: login.php');
 }
-$ra = $_SESSION['ra'];
-$funcao = $_SESSION['funcao'];
-$nome = $_SESSION['nome'];
-
-if(isset($_POST['submit'])){
 
 
+if(isset($_POST['nome']) ){
+$ra = $_POST['ra'];
+$funcao = $_POST['funcao'];
+$nome = $_POST['nome'];
+}
 
+if(isset($_POST['submit']) ){
+
+
+print_r($nome);
 $equip = $_POST['equipamento'];
 $quant = $_POST['quant'];
 
@@ -30,8 +34,9 @@ $desc = $_POST['descricao'];
 $query = "INSERT INTO emprestimo (nome_completo, ra, funcao,equipamento,quantidade,data_emprestimo,descricao) VALUES('$nome','$ra', '$funcao','$equip','$quant','$data','$desc.');";
 
 mysqli_query($con,$query) or die(mysqli_error($con));
-   
 }
+
+
 
 ?>
 
@@ -50,7 +55,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
 <body style="background: linear-gradient(#3DA9CC,#3DA9CC,#E3FFD9);"><h1 class="Tsistema">Sistema de Emprestimos</h1>
 
 
-    <a style="margin:10%;color:white" href="login.html">
+    <a style="margin:10%;color:white" href="login.php">
        
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
@@ -109,22 +114,72 @@ Página Inicial - plataforma de empréstimos de equipamentos
  
 
 <div class="col-12">
-    <label style="color:white;" for="ra" class="col-form-label">Suas solicitações:</label>
+    <label style="color:white;" for="ra" class="col-form-label">Criar solicitações:</label>
 </div>
 
   <div class="col-12">
   <div class="card" style="width: 25rem; height:100% ;padding: 1rem;">
   <div class="row">
-  
+    <div style="   
+    max-height: 100px;
+    min-height: 49px;">
+    Escolha e clique no solicitante: 
+  <?php
+  $sql =" SELECT * FROM usuario ";
+ 
+$result = mysqli_query($con, $sql);
 
+
+
+
+ while($user_data = mysqli_fetch_assoc($result))
+{
+
+ 
+   $ra = $user_data['RA'];
+    $nome =$user_data['Nome_completo'];
+    
+	 $funcao= $user_data['funcao'];
+ 
+  echo '  <li onclick="showDetails(this)" id="owl" value="'.$ra.'" data-nome="'.$nome.'" data-func="funcionario">Nome: '.$nome.' -'.$funcao.'</li> ';
+
+
+} ?>
+  </div>
+  <script>
+function showDetails(pessoa) {
+  let name = pessoa.getAttribute("data-nome");
+  let func = pessoa.getAttribute("data-func");
   
+  let nome = document.getElementById("nome");
+  let funcao = document.getElementById("funcao");
+  let ra = document.getElementById("ra");
+  
+nome.value =  name ;
+funcao.value= func  
+ ra.value = pessoa.value; 
+  
+  
+}
+</script>
+
   <div class="form-group">
 
 
  
 <div class="form-group">
 
+<ul>
 
+<label for="exampleFormControlInput1">Nome:</label>
+  <input class="form-control"name="nome" id="nome" type="text">
+<br>
+  <label for="exampleFormControlInput1">Função:</label>
+  <input class="form-control" name="funcao" id="funcao" type="text">
+<br>
+  <label for="exampleFormControlInput1">RA:</label>
+  <input class="form-control" nae="ra" id="ra" type="number">
+</ul>
 
 <label for="exampleFormControlInput1">Equipamento:</label>
 <input type="text" name="equipamento" required="" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Notebook">
