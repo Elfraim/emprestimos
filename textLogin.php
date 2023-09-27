@@ -17,13 +17,13 @@ print_r($result);
 if(mysqli_num_rows($result) < 1){
     unset($_SESSION['ra']);
     
-header('Location: login.php');
+header('Location: login.html');
 
 } else {
- while($user_data = mysqli_fetch_assoc($result))
+  
+   
+while($user_data = mysqli_fetch_assoc($result))
 {
-
- 
    $_SESSION['ra']= $ra;
     $nome =$user_data['nome'];
     
@@ -34,15 +34,12 @@ header('Location: login.php');
   $_SESSION['funcao'] = $funcao; 
   
   header('Location: home_user.php'); 
-} 
-
- 
-}
+}}
 
 
 
 }else{
-    header('location: login.php');
+    header('location: login.html');
 }
 
 ?>

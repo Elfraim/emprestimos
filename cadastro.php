@@ -15,7 +15,7 @@ $RA = $_POST['ra'];
 $funcao = $_POST['funcao'];
 
 
-$resultado= mysqli_query($con,"INSERT INTO usuario  VALUES ('$nome','$RA' ,'$funcao');");
+$resultado= mysqli_query($con,"INSERT INTO usuario  VALUES ('$nome','$RA', '$funcao');");
 
 }
 
@@ -38,7 +38,7 @@ Cadastro - plataforma de empréstimos
 <h1 class="Tsistema">Sistema de Emprestimos</h1>
 
 <body>
-    <a  style="margin:10%;color:white" href="login.php">
+    <a  style="margin:10%;color:white" href="login.html">
        
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
@@ -111,28 +111,7 @@ position: fixed;">
 
 
 </form>
-<?php 
-if(isset($_POST['submit'])){
-  echo'
-<div class="alert-popup-container" style="margin-left: calc(-12rem + -13vw);
-position: fixed;">
-  <div class="success-checkmark">
-    <div class="check-icon">
-      <span class="icon-line line-tip"></span>
-      <span class="icon-line line-long"></span>
-      <div class="icon-circle"></div>
-      <div class="icon-fix"></div>
-    </div>
-  </div>
-  <div class="alert-popup-title"> Salvo com Successo!!!</div>
-  
-  <div class="alert-popup-confirm">
-    <button>OK</button>
-  </div>
 
-
-  </div>
-</div>';} ?>
 <style>
 
 .success-animation { margin:150px auto;}

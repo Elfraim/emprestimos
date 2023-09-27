@@ -29,11 +29,51 @@ $quant = $_POST['quant'];
 $data = $_POST['DataEmp'];
 
 $desc = $_POST['descricao'];
+;
 
 
 $query = "INSERT INTO emprestimo (nome_completo, ra, funcao,equipamento,quantidade,data_emprestimo,descricao) VALUES('$nome','$ra', '$funcao','$equip','$quant','$data','$desc.');";
 
 mysqli_query($con,$query) or die(mysqli_error($con));
+$link= '?quantidade='.$quant.'&equipamento='.$equip;
+header("Location: updateEstoque.php$link");
+
+}else if(isset($_POST['edit']) ){
+
+
+print_r($nome);
+$equip = $_POST['equipamento'];
+$quant = $_POST['quant'];
+
+
+
+$data = $_POST['DataEmp'];
+
+$desc = $_POST['descricao'];
+ $id =   $_POST['edit'];
+ 
+
+
+$query = "UPDATE emprestimo SET nome_completo = '$nome', ra = '$ra', funcao = '$funcao',equipamento= '$equip',quantidade = '$quant',data_emprestimo = '$data', descricao ='$desc' where id = '$id';";
+
+mysqli_query($con,$query) or die(mysqli_error($con));
+
+  $sql =" SELECT quantidade FROM emprestimo where id=".$id." ";
+ 
+$re = mysqli_query($con, $sql);
+
+
+
+ while($us= mysqli_fetch_assoc($re))
+{
+
+ $q = $us['quantidade'];
+   
+}
+
+$link= '?quantidade='.$quant.'&equipamento='.$equip.'&id='.$id.'&q='.$q;
+header("Location: updateEstoque.php$link");
+
 }
 
 
@@ -125,6 +165,7 @@ Página Inicial - plataforma de empréstimos de equipamentos
     min-height: 49px;">
     Escolha e clique no solicitante: 
   <?php
+  
   $sql =" SELECT * FROM usuario ";
  
 $result = mysqli_query($con, $sql);
@@ -136,8 +177,8 @@ $result = mysqli_query($con, $sql);
 {
 
  
-   $ra = $user_data['RA'];
-    $nome =$user_data['Nome_completo'];
+   $ra = $user_data['ra'];
+    $nome =$user_data['nome'];
     
 	 $funcao= $user_data['funcao'];
  
@@ -165,30 +206,55 @@ funcao.value= func
 
   <div class="form-group">
 
+ <?php
+  if(isset($_GET['id'])){
+  $sql =" SELECT * FROM emprestimo where id = ".$_GET['id']." ";
+ 
+$res = mysqli_query($con, $sql);
 
+
+
+
+ while($user = mysqli_fetch_assoc($res))
+{
+
+ 
+$equip = $user['equipamento'];
+$quant = $user['quantidade'];
+
+
+
+$data = $user['data_emprestimo'];
+
+$desc = $user['descricao'];
+
+
+  } 
+  
+  }?>
  
 <div class="form-group">
 
 <ul>
 
 <label for="exampleFormControlInput1">Nome:</label>
-  <input class="form-control"name="nome" id="nome" type="text">
+  <input class="form-control"name="nome" id="nome" type="text" >
 <br>
   <label for="exampleFormControlInput1">Função:</label>
   <input class="form-control" name="funcao" id="funcao" type="text">
 <br>
   <label for="exampleFormControlInput1">RA:</label>
-  <input class="form-control" nae="ra" id="ra" type="number">
+  <input class="form-control" name="ra" id="ra" type="number">
 </ul>
 
 <label for="exampleFormControlInput1">Equipamento:</label>
-<input type="text" name="equipamento" required="" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Notebook">
+<input type="text" name="equipamento" <?php if(isset($_GET['id'])){ echo'value='.$equip;}?> required="" class="form-control" id="exampleFormControlInput1" placeholder="Ex: Notebook">
 </div>
 
 <div class="form-group">
 
 <label for="exampleFormControlInput1">Quantidade:</label>
-<input type="number" name="quant" required="" class="form-control" id="exampleFormControlInput1" placeholder=" Ex: 5">
+<input type="number" name="quant" <?php if(isset($_GET['id'])){ echo'value='.$quant;}?> required="" class="form-control" id="exampleFormControlInput1" placeholder=" Ex: 5">
 
 </div>
 
@@ -196,7 +262,7 @@ funcao.value= func
 <div class="form-group">
 
 <label for="exampleFormControlInput1">Data Emprestimo:</label>
-<input type="datetime-local" name="DataEmp" required="" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+<input type="datetime-local" <?php if(isset($_GET['id'])){ echo'value="'.$data.'"';}?> name="DataEmp" required="" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
 
 </div>
  
@@ -207,12 +273,14 @@ funcao.value= func
 
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Descrição</label>
-    <textarea name="descricao" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <textarea name="descricao" <?php if(isset($_GET['id'])){ echo'value='.$desc.'"';}?> class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
   </div>
- 
-  <button type="submit" name="submit" id="submit" class=" col-2 bot btn btn-primary" "=" style="margin: auto">Criar</button>
-    
-
+  <?php if(!isset($_GET['id'])){ echo'
+  <button type="submit" name="submit" id="submit" class=" col-2 bot btn btn-primary" "=" style="margin: auto">Criar</button>';
+	}?> 
+  <?php if(isset($_GET['id'])){ echo'
+  <button type="submit" name="edit" id="edit" value="'.$_GET['id'].'" class=" col-2 bot btn btn-primary" "=" style="margin: auto">Editar</button>';
+	}?> 
 
 
   </div>
@@ -229,7 +297,9 @@ funcao.value= func
 
   
 
-
+ <?php if(isset($_GET['id'])){ echo'
+  <input style="display: contents" type="text"  name="q" id="id" value="'.$_GET['q'].'" class=" col-2 "  style="margin: auto">';
+	}?> 
 </div>
 </form>
 
