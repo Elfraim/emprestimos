@@ -11,4 +11,4 @@ fiz conexão por meio do arquivo config ⚙️
 
  fiz a função de emprestar o produto , 🫴 📤  
 
- e devolução em que o sistema soma ou subtrai do estoque atomaticamenta 📥
+ e devolução em que o sistema soma ou subtrai do estoque atomaticamente 📥
